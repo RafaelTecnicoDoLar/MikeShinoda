@@ -1,13 +1,20 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 
 import { useEffect, useState } from "react";
 
-const [autorizado, setAutorizado] = useState();
-useEffect({
-
-},[])
-
 export default function Router() {
+    const [autorizado, setAutorizado] = useState(false);
+    useEffect(() => {
+
+        if (localStorage.getItem("access_token") != null) {
+            setAutorizado(true);
+
+        } else {
+            setAutorizado(false);
+        }
+
+    }, [])
+
     return (
         <BrowserRouter>
             <Routes>
@@ -15,6 +22,14 @@ export default function Router() {
                 <Route path="contato" element={<h1> contato </h1>} />
                 <Route path="sobre" element={<h1> sobre </h1>} />
                 <Route path="*" element={<h1> 404 not found </h1>} />
+
+                {autorizado ? <Route path="dashbord" element={<h1> dashbord </h1>} />
+
+                    :
+
+                    <Route path="login" element={<h1> login </h1>} />
+
+                }
 
             </Routes>
 
